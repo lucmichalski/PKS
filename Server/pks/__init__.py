@@ -19,7 +19,7 @@ from .config import Config
 # Setup the configuration for logging.
 logging.basicConfig(
     format='%(asctime)s - %(message)s',  # We add a timestamp to each log entries.
-    level=logging.DEBUG,
+    level=logging.INFO,
     datefmt='%m/%d/%Y %I:%M:%S %p',
     filename="/var/log/pks.log",
     filemode="r+",
@@ -71,6 +71,14 @@ class PKS:
                 (self.commands_o.add_perm, 2, []),
             "/remove_perm":
                 (self.commands_o.remove_perm, 2, []),
+            "/target_port":
+                (self.commands_o.target_port, 0, []),
+            "/status":
+                (self.commands_o.status, 0, []),
+            "/print_config":
+                (self.commands_o.print_config, 1, []),
+            "/print_broadcast_list":
+                (self.commands_o.print_broadcast_list, 0, []),
         }
         # Adds the "/help" command.
         # Help will only print documentation for the functions listed above (in commands_l).

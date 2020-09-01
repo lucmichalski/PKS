@@ -93,6 +93,9 @@ class Commands:
 
     @permissions_required("manage_sequences")
     def target_port(self) -> str:
+        """
+        Prints the port that is manipulated by knockd.
+        """
         return str(Config.target_port)
 
     @permissions_required("modify_bot_behaviour", "admin_access")
@@ -148,22 +151,22 @@ class Commands:
         Print the config of the bot.
         Usage: /print_config help
         """
+        # Gathers all the attributes of the "Config" class, omitting magic methods.
         attributes = [d for d in dir(Config) if not d.startswith("__")]
+
         config = "Value:\n"
 
         if attr == "help":
             return "Available attributes: all, " + ", ".join(attributes)
-
-        if attr not in attributes:  # If the attribute does not exist
-            return "This attribute does not exist. Use \"/print_config help\" or \"/help\" for more information."
-
-        if attr == "all":
+        elif attr == "all":
             for a in attributes:
-                config += getattr(Config, a)  # Get attribute value
+                config += str(getattr(Config, a)) + "\n"  # Get attribute value
+        else:
+            if attr not in attributes:  # If the attribute does not exist
+                return "This attribute does not exist. Use \"/print_config help\" or \"/help\" for more information."
+            config += str(getattr(Config, attr))
 
-        config += getattr(Config, attr)
-
-        return str(config)
+        return config
 
     @permissions_required("admin_access")
     def print_broadcast_list(self) -> str:
